@@ -51,30 +51,6 @@ const LINKS = [
     color: 'bg-[#25D366]/10'
   },
   {
-    id: 'consultoria',
-    title: 'Consultoria de SEO',
-    subtitle: 'Estratégia personalizada para seu negócio',
-    icon: <UserCheck className="w-6 h-6 text-[#4285F4]" />,
-    url: '#',
-    color: 'bg-[#4285F4]/10'
-  },
-  {
-    id: 'ecommerce',
-    title: 'SEO para e-commerce',
-    subtitle: 'Aumente as vendas da sua loja virtual',
-    icon: <ShoppingBag className="w-6 h-6 text-[#EA4335]" />,
-    url: '#',
-    color: 'bg-[#EA4335]/10'
-  },
-  {
-    id: 'tecnico',
-    title: 'SEO Técnico',
-    subtitle: 'Auditorias, velocidade e UX',
-    icon: <Settings className="w-6 h-6 text-[#FBBC05]" />,
-    url: '#',
-    color: 'bg-[#FBBC05]/10'
-  },
-  {
     id: 'conteudo',
     title: 'Criação de Conteúdo Otimizado',
     subtitle: 'Textos que ranqueiam e convertem',
@@ -89,6 +65,30 @@ const LINKS = [
     icon: <LinkIcon className="w-6 h-6 text-[#4285F4]" />,
     url: '#',
     color: 'bg-[#4285F4]/10'
+  },
+  {
+    id: 'ecommerce',
+    title: 'SEO para e-commerce',
+    subtitle: 'Aumente as vendas da sua loja virtual',
+    icon: <ShoppingBag className="w-6 h-6 text-[#EA4335]" />,
+    url: '#',
+    color: 'bg-[#EA4335]/10'
+  },
+  {
+    id: 'consultoria',
+    title: 'Consultoria de SEO',
+    subtitle: 'Estratégia personalizada para seu negócio',
+    icon: <UserCheck className="w-6 h-6 text-[#4285F4]" />,
+    url: '#',
+    color: 'bg-[#4285F4]/10'
+  },
+  {
+    id: 'tecnico',
+    title: 'SEO Técnico',
+    subtitle: 'Auditorias, velocidade e UX',
+    icon: <Settings className="w-6 h-6 text-[#FBBC05]" />,
+    url: '#',
+    color: 'bg-[#FBBC05]/10'
   },
   {
     id: 'local',
@@ -168,7 +168,7 @@ export default function App() {
           </div>
           
           <h1 className="text-2xl font-bold text-gray-900 mb-1">ALAN SEO</h1>
-          <p className="text-[#4285F4] font-medium text-sm tracking-wide uppercase mb-4">A sua marca no topo das pesquisas</p>
+          <h2 className="text-[#4285F4] font-medium text-sm tracking-wide uppercase mb-4">A sua marca no topo das pesquisas</h2>
           
           <div className="max-w-[280px]">
             <p className="text-gray-600 text-sm leading-relaxed">
@@ -179,27 +179,38 @@ export default function App() {
 
         {/* Links Section */}
         <div className="space-y-4 mb-12">
-          {LINKS.map((link, index) => (
-            <motion.a
-              key={link.id}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="link-card group"
-            >
-              <div className={`w-12 h-12 rounded-xl ${link.color} flex items-center justify-center mr-4 shrink-0 transition-transform group-hover:scale-110`}>
-                {link.icon}
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-gray-900 truncate">{link.title}</h3>
-                <p className="text-xs text-gray-500 truncate">{link.subtitle}</p>
-              </div>
-              <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors" />
-            </motion.a>
-          ))}
+          {LINKS.map((link, index) => {
+            const isClickable = link.url !== '#';
+            const CardWrapper = isClickable ? motion.a : motion.div;
+            
+            return (
+              <CardWrapper
+                key={link.id}
+                {...(isClickable ? { 
+                  href: link.url, 
+                  target: "_blank", 
+                  rel: "noopener noreferrer" 
+                } : {})}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className={`flex items-center p-4 rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 ${
+                  isClickable ? 'hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer group' : ''
+                }`}
+              >
+                <div className={`w-12 h-12 rounded-xl ${link.color} flex items-center justify-center mr-4 shrink-0 transition-transform ${isClickable ? 'group-hover:scale-110' : ''}`}>
+                  {link.icon}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-semibold text-gray-900 truncate">{link.title}</h3>
+                  <p className="text-xs text-gray-500 truncate">{link.subtitle}</p>
+                </div>
+                {isClickable && (
+                  <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors" />
+                )}
+              </CardWrapper>
+            );
+          })}
         </div>
 
         {/* Footer */}
