@@ -189,7 +189,7 @@ export default function App() {
             <div className="relative mb-6">
               <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white profile-img-container animate-pulse">
                 <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&h=256&auto=format&fit=crop" 
+                  src="https://raw.githubusercontent.com/alanrspx3/alanseo/main/src/alanseo.webp" 
                   alt="Foto de perfil de Alan SEO" 
                   className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
