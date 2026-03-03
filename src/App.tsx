@@ -30,6 +30,7 @@ const FloatingWhatsApp = lazy(() => Promise.resolve({
       href="https://wa.me/5569992198494"
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="Fale conosco no WhatsApp"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       whileHover={{ scale: 1.1 }}
@@ -41,12 +42,29 @@ const FloatingWhatsApp = lazy(() => Promise.resolve({
   )
 }));
 
+// Deferred Icon component to prioritize text rendering
+const DeferredIcon = ({ Icon, color, delay = 0 }: { Icon: any, color: string, delay?: number }) => {
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  if (!mounted) {
+    return <div className="w-6 h-6 rounded-full bg-gray-100/20 animate-pulse" />;
+  }
+
+  return <Icon className="w-6 h-6" style={{ color }} aria-hidden="true" />;
+};
+
 const LINKS = [
   {
     id: 'whatsapp',
     title: 'Fale Conosco no WhatsApp',
     subtitle: 'Atendimento imediato e personalizado',
-    icon: <MessageCircle className="w-6 h-6 text-[#25D366]" />,
+    Icon: MessageCircle,
+    iconColor: '#25D366',
     url: 'https://wa.me/5569992198494',
     color: 'bg-[#25D366]/10'
   },
@@ -54,7 +72,8 @@ const LINKS = [
     id: 'conteudo',
     title: 'Criação de Conteúdo Otimizado',
     subtitle: 'Textos que ranqueiam e convertem',
-    icon: <PenTool className="w-6 h-6 text-[#34A853]" />,
+    Icon: PenTool,
+    iconColor: '#34A853',
     url: '#',
     color: 'bg-[#34A853]/10'
   },
@@ -62,7 +81,8 @@ const LINKS = [
     id: 'linkbuilding',
     title: 'Link Building Estratégico',
     subtitle: 'Autoridade real para o seu domínio',
-    icon: <LinkIcon className="w-6 h-6 text-[#4285F4]" />,
+    Icon: LinkIcon,
+    iconColor: '#4285F4',
     url: '#',
     color: 'bg-[#4285F4]/10'
   },
@@ -70,7 +90,8 @@ const LINKS = [
     id: 'ecommerce',
     title: 'SEO para e-commerce',
     subtitle: 'Aumente as vendas da sua loja virtual',
-    icon: <ShoppingBag className="w-6 h-6 text-[#EA4335]" />,
+    Icon: ShoppingBag,
+    iconColor: '#EA4335',
     url: '#',
     color: 'bg-[#EA4335]/10'
   },
@@ -78,7 +99,8 @@ const LINKS = [
     id: 'consultoria',
     title: 'Consultoria de SEO',
     subtitle: 'Estratégia personalizada para seu negócio',
-    icon: <UserCheck className="w-6 h-6 text-[#4285F4]" />,
+    Icon: UserCheck,
+    iconColor: '#4285F4',
     url: '#',
     color: 'bg-[#4285F4]/10'
   },
@@ -86,7 +108,8 @@ const LINKS = [
     id: 'tecnico',
     title: 'SEO Técnico',
     subtitle: 'Auditorias, velocidade e UX',
-    icon: <Settings className="w-6 h-6 text-[#FBBC05]" />,
+    Icon: Settings,
+    iconColor: '#FBBC05',
     url: '#',
     color: 'bg-[#FBBC05]/10'
   },
@@ -94,7 +117,8 @@ const LINKS = [
     id: 'local',
     title: 'SEO Local',
     subtitle: 'Domine as buscas na sua região',
-    icon: <MapPin className="w-6 h-6 text-[#EA4335]" />,
+    Icon: MapPin,
+    iconColor: '#EA4335',
     url: '#',
     color: 'bg-[#EA4335]/10'
   },
@@ -102,7 +126,8 @@ const LINKS = [
     id: 'cro',
     title: 'CRO',
     subtitle: 'Otimização de Taxa de Conversão',
-    icon: <Target className="w-6 h-6 text-[#FBBC05]" />,
+    Icon: Target,
+    iconColor: '#FBBC05',
     url: '#',
     color: 'bg-[#FBBC05]/10'
   },
@@ -110,7 +135,8 @@ const LINKS = [
     id: 'geo',
     title: 'GEO',
     subtitle: 'Generative Engine Optimization',
-    icon: <Globe className="w-6 h-6 text-[#34A853]" />,
+    Icon: Globe,
+    iconColor: '#34A853',
     url: '#',
     color: 'bg-[#34A853]/10'
   }
@@ -130,8 +156,9 @@ export default function App() {
       {/* Background Accent Image */}
       <div className="absolute top-0 left-0 w-full h-[320px] -z-10 overflow-hidden">
         <img 
-          src="https://picsum.photos/seed/seo-agency/1200/600" 
-          alt="Background" 
+          src="https://i.imgur.com/9S4BuHa.jpeg" 
+          alt="" 
+          role="presentation"
           className="w-full h-full object-cover brightness-[0.4] contrast-[1.1]"
           referrerPolicy="no-referrer"
           loading="eager"
@@ -151,7 +178,7 @@ export default function App() {
             <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white profile-img-container">
               <img 
                 src="https://storage.googleapis.com/generativeai-downloads/images/alan_seo_profile_v2.jpg" 
-                alt="alan SEO" 
+                alt="Foto de perfil de Alan SEO" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
                 loading="eager"
@@ -163,7 +190,7 @@ export default function App() {
               />
             </div>
             <div className="absolute -bottom-2 -right-2 bg-[#4285F4] text-white p-2 rounded-full shadow-lg">
-              <Search className="w-5 h-5" />
+              <Search className="w-5 h-5" aria-hidden="true" />
             </div>
           </div>
           
@@ -202,14 +229,14 @@ export default function App() {
                 }`}
               >
                 <div className={`w-12 h-12 rounded-xl ${link.color} flex items-center justify-center mr-4 shrink-0 transition-transform ${isClickable ? 'group-hover:scale-110' : ''}`}>
-                  {link.icon}
+                  <DeferredIcon Icon={link.Icon} color={link.iconColor} delay={index * 50 + 200} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-semibold text-gray-900 truncate">{link.title}</h3>
                   <p className="text-xs text-gray-500 truncate">{link.subtitle}</p>
                 </div>
                 {isClickable && (
-                  <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors" />
+                  <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors" aria-hidden="true" />
                 )}
               </CardWrapper>
             );
@@ -223,13 +250,13 @@ export default function App() {
             Todos os direitos reservados.
           </p>
           <div className="mt-6 flex justify-center space-x-6">
-            <a href="https://instagram.com/alan.google.seo" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#E4405F] transition-colors">
-              <Instagram className="w-6 h-6" />
+            <a href="https://instagram.com/alan.google.seo" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#E4405F] transition-colors" aria-label="Instagram de Alan SEO">
+              <Instagram className="w-6 h-6" aria-hidden="true" />
             </a>
-            <a href="https://www.facebook.com/malan.silva.18" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1877F2] transition-colors">
-              <Facebook className="w-6 h-6" />
+            <a href="https://www.facebook.com/malan.silva.18" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#1877F2] transition-colors" aria-label="Facebook de Alan SEO">
+              <Facebook className="w-6 h-6" aria-hidden="true" />
             </a>
-            <div className="opacity-30 grayscale hover:grayscale-0 transition-all">
+            <div className="opacity-30 grayscale hover:grayscale-0 transition-all" aria-hidden="true">
               <TrendingUp className="w-6 h-6 text-gray-400" />
             </div>
           </div>
