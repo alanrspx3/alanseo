@@ -206,10 +206,10 @@ export default function App() {
             </div>
             
             <h1 className="text-2xl font-bold text-gray-900 mb-1">ALAN SEO</h1>
-            <h2 className="text-[#4285F4] font-medium text-sm tracking-wide uppercase mb-4">A sua marca no topo das pesquisas</h2>
+            <h2 className="text-[#1967D2] font-semibold text-sm tracking-wide uppercase mb-4">A sua marca no topo das pesquisas</h2>
             
             <div className="max-w-[280px]">
-              <p className="text-gray-700 text-sm leading-relaxed">
+              <p className="text-gray-800 text-sm leading-relaxed">
                 Aumente o tráfego orgânico, conquiste clientes qualificados e transforme seu site em uma máquina de vendas.
               </p>
             </div>
@@ -245,8 +245,8 @@ export default function App() {
                   <DeferredIcon Icon={link.Icon} color={link.iconColor} delay={index * 50 + 200} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-semibold text-gray-900">{link.title}</h3>
-                  <p className="text-xs text-gray-600 leading-tight">{link.subtitle}</p>
+                  <h3 className="text-sm font-bold text-gray-900">{link.title}</h3>
+                  <p className="text-xs text-gray-700 font-medium leading-tight">{link.subtitle}</p>
                 </div>
                 {isClickable && (
                   <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors" aria-hidden="true" />
@@ -258,19 +258,19 @@ export default function App() {
 
         {/* Footer */}
         <footer className="text-center py-8">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-700 font-medium">
             © {new Date().getFullYear()} Alan SEO Agency<br/>
             Todos os direitos reservados.
           </p>
           <div className="mt-6 flex justify-center space-x-6">
-            <a href="https://instagram.com/alan.google.seo" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#E4405F] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] focus-visible:ring-offset-2 rounded-lg p-1" aria-label="Seguir no Instagram">
+            <a href="https://instagram.com/alan.google.seo" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-[#E4405F] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] focus-visible:ring-offset-2 rounded-lg p-1" aria-label="Seguir no Instagram">
               <Instagram className="w-6 h-6" aria-hidden="true" />
             </a>
-            <a href="https://www.facebook.com/malan.silva.18" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#1877F2] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] focus-visible:ring-offset-2 rounded-lg p-1" aria-label="Seguir no Facebook">
+            <a href="https://www.facebook.com/malan.silva.18" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-[#1877F2] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] focus-visible:ring-offset-2 rounded-lg p-1" aria-label="Seguir no Facebook">
               <Facebook className="w-6 h-6" aria-hidden="true" />
             </a>
-            <div className="opacity-30 grayscale hover:grayscale-0 transition-all" aria-hidden="true">
-              <TrendingUp className="w-6 h-6 text-gray-500" />
+            <div className="opacity-50 grayscale hover:grayscale-0 transition-all" aria-hidden="true">
+              <TrendingUp className="w-6 h-6 text-gray-600" />
             </div>
           </div>
         </footer>
