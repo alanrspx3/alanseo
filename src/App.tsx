@@ -140,7 +140,7 @@ export default function App() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#4285F4]/40 to-[#F8F9FA]" />
       </div>
 
-      <main className="max-w-md mx-auto px-6 pt-12">
+      <main className="max-w-2xl mx-auto px-6 pt-12">
         {/* Profile Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -177,11 +177,12 @@ export default function App() {
           </div>
         </motion.div>
 
-        {/* Links Section */}
-        <div className="space-y-4 mb-12">
+        {/* Links Section - Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
           {LINKS.map((link, index) => {
             const isClickable = link.url !== '#';
             const CardWrapper = isClickable ? motion.a : motion.div;
+            const isFullWidth = link.id === 'whatsapp';
             
             return (
               <CardWrapper
@@ -191,11 +192,13 @@ export default function App() {
                   target: "_blank", 
                   rel: "noopener noreferrer" 
                 } : {})}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
                 className={`flex items-center p-4 rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 ${
-                  isClickable ? 'hover:shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer group' : ''
+                  isFullWidth ? 'sm:col-span-2' : ''
+                } ${
+                  isClickable ? 'hover:shadow-md hover:scale-[1.01] active:scale-[0.99] cursor-pointer group' : ''
                 }`}
               >
                 <div className={`w-12 h-12 rounded-xl ${link.color} flex items-center justify-center mr-4 shrink-0 transition-transform ${isClickable ? 'group-hover:scale-110' : ''}`}>
