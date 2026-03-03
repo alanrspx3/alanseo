@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-[#F8F9FA] text-[#1A1A1A] antialiased;
+  }
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm;
+}
+
+.link-card {
+  @apply flex items-center p-4 rounded-2xl bg-white border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02] active:scale-[0.98];
+}
+
+.floating-whatsapp {
+  @apply fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg z-50 transition-transform hover:scale-110 active:scale-95;
+}
+
+.profile-img-container {
+  @apply bg-gray-100 animate-pulse;
+}
+
+.profile-img-container img {
+  @apply opacity-0 transition-opacity duration-300;
+}
+
+.profile-img-container img.loaded {
+  @apply opacity-100;
+}
