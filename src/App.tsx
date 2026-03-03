@@ -164,16 +164,14 @@ export default function App() {
       {/* Background Accent Image */}
       <div className="absolute top-0 left-0 w-full h-[320px] -z-10 overflow-hidden">
         <img 
-          src="https://alanseo.com.br/assets/alanseo-BJzKTJ4F.webp" 
+          src="https://hotelcity.com.br/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-03-at-15.39.14.webp" 
           alt="" 
           role="presentation"
           className="w-full h-full object-cover brightness-[0.4] contrast-[1.1]"
           referrerPolicy="no-referrer"
           loading="eager"
-          fetchPriority="high"
           width="1200"
           height="320"
-          decoding="sync"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#4285F4]/40 to-[#F8F9FA]" />
       </div>
@@ -194,10 +192,8 @@ export default function App() {
                   className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
                   loading="eager"
-                  fetchPriority="high"
                   width="128"
                   height="128"
-                  decoding="sync"
                   onLoad={(e) => {
                     e.currentTarget.classList.remove('opacity-0');
                     e.currentTarget.parentElement?.classList.remove('animate-pulse');
@@ -249,8 +245,8 @@ export default function App() {
                   <DeferredIcon Icon={link.Icon} color={link.iconColor} delay={index * 50 + 200} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-sm font-semibold text-gray-900 truncate">{link.title}</h3>
-                  <p className="text-xs text-gray-600 truncate">{link.subtitle}</p>
+                  <h3 className="text-sm font-semibold text-gray-900">{link.title}</h3>
+                  <p className="text-xs text-gray-600 leading-tight">{link.subtitle}</p>
                 </div>
                 {isClickable && (
                   <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-gray-500 transition-colors" aria-hidden="true" />
