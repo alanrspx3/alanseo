@@ -187,18 +187,21 @@ export default function App() {
             className="flex flex-col items-center text-center mb-10"
           >
             <div className="relative mb-6">
-              <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white profile-img-container">
+              <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white profile-img-container animate-pulse">
                 <img 
-                  src="https://storage.googleapis.com/generativeai-downloads/images/alan_seo_profile_v2.jpg" 
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&h=256&auto=format&fit=crop" 
                   alt="Foto de perfil de Alan SEO" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
                   loading="eager"
                   fetchPriority="high"
                   width="128"
                   height="128"
                   decoding="sync"
-                  onLoad={(e) => (e.currentTarget.classList.add('loaded'), e.currentTarget.parentElement?.classList.remove('animate-pulse'))}
+                  onLoad={(e) => {
+                    e.currentTarget.classList.remove('opacity-0');
+                    e.currentTarget.parentElement?.classList.remove('animate-pulse');
+                  }}
                 />
               </div>
               <div className="absolute -bottom-2 -right-2 bg-[#4285F4] text-white p-2 rounded-full shadow-lg">
