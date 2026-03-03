@@ -170,8 +170,10 @@ export default function App() {
           className="w-full h-full object-cover brightness-[0.4] contrast-[1.1]"
           referrerPolicy="no-referrer"
           loading="eager"
+          fetchPriority="high"
           width="1200"
           height="320"
+          decoding="sync"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#4285F4]/40 to-[#F8F9FA]" />
       </div>
@@ -192,8 +194,10 @@ export default function App() {
                   className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
                   loading="eager"
+                  fetchPriority="high"
                   width="128"
                   height="128"
+                  decoding="sync"
                   onLoad={(e) => {
                     e.currentTarget.classList.remove('opacity-0');
                     e.currentTarget.parentElement?.classList.remove('animate-pulse');
