@@ -164,7 +164,7 @@ export default function App() {
       {/* Background Accent Image */}
       <div className="absolute top-0 left-0 w-full h-[320px] -z-10 overflow-hidden">
         <img 
-          src="https://hotelcity.com.br/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-03-at-15.39.14.webp" 
+          src="https://raw.githubusercontent.com/alanrspx3/alanseo/main/src/alanseo.webp" 
           alt="" 
           role="presentation"
           className="w-full h-full object-cover brightness-[0.4] contrast-[1.1]"
