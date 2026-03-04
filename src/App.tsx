@@ -26,7 +26,7 @@ import { useState, useEffect, Suspense, lazy } from 'react';
 const FloatingWhatsApp = lazy(() => Promise.resolve({
   default: () => (
     <motion.a 
-      href="https://wa.me/5569992198494"
+      href="https://wa.me/5569992198494?text=Olá%20gostaria%20de%20fazer%20uma%20consultoria."
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Conversar no WhatsApp"
@@ -64,7 +64,7 @@ const LINKS = [
     subtitle: 'Atendimento imediato e personalizado',
     Icon: MessageCircle,
     iconColor: '#25D366',
-    url: 'https://wa.me/5569992198494',
+    url: 'https://wa.me/5569992198494?text=Olá%20gostaria%20de%20fazer%20uma%20consultoria.',
     color: 'bg-[#25D366]/10'
   },
   {
