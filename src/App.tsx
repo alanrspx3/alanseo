@@ -6,7 +6,6 @@
 import { 
   MessageCircle, 
   Instagram, 
-  FileText, 
   ChevronRight, 
   Search,
   TrendingUp,
@@ -20,7 +19,7 @@ import {
   Globe,
   Facebook
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, LazyMotion, domAnimation } from 'motion/react';
 import { useState, useEffect, Suspense, lazy } from 'react';
 
 // Lazy load the floating button to reduce initial bundle size and execution time
@@ -152,7 +151,8 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] pb-20 font-sans">
+    <LazyMotion features={domAnimation}>
+      <div className="min-h-screen bg-[#F8F9FA] pb-20 font-sans">
       {/* Skip to content link for keyboard accessibility */}
       <a 
         href="#main-content" 
@@ -289,5 +289,6 @@ export default function App() {
         </Suspense>
       )}
     </div>
+    </LazyMotion>
   );
 }
