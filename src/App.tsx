@@ -234,10 +234,10 @@ export default function App() {
       {/* Background Accent Image */}
       <div className="absolute top-0 left-0 w-full h-[320px] -z-10 overflow-hidden">
         <img 
-          src="https://raw.githubusercontent.com/alanrspx3/alanseo/main/src/alanseo.webp" 
+          src="https://picsum.photos/seed/seo-marketing/1200/320?blur=2" 
           alt="" 
           role="presentation"
-          className="w-full h-full object-cover brightness-[0.4] contrast-[1.1]"
+          className="w-full h-full object-cover brightness-[0.5] contrast-[1.1]"
           referrerPolicy="no-referrer"
           loading="eager"
           fetchPriority="high"
@@ -259,7 +259,7 @@ export default function App() {
             <div className="relative mb-6">
               <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white profile-img-container animate-pulse">
                 <img 
-                  src="https://raw.githubusercontent.com/alanrspx3/alanseo/main/src/alanseo.webp" 
+                  src="https://scontent-gru1-1.cdninstagram.com/v/t51.82787-19/628959732_18566132353054456_4011160321108166444_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-gru1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gExrvlmIxvS9bt9AeBjiMkHqZJBs1RSLtWKKgvuvDlAiMxrao_MBE7wUVuFRIklo8M&_nc_ohc=YzuIdRLr_jAQ7kNvwG7c_Au&_nc_gid=S-5PqFEtlhBrG-DV3Hufow&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Afw0cK2G5UKH_6mo5vlt4qVarRNDpIgoZ9wnQ2OrCwVZTg&oe=69D209DD&_nc_sid=7a9f4b" 
                   alt="Foto de perfil de Alan SEO" 
                   className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
