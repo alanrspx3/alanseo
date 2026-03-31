@@ -26,8 +26,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { motion, LazyMotion, domAnimation, AnimatePresence } from 'motion/react';
-import { useState, useEffect, Suspense, lazy, useRef, FormEvent } from 'react';
-import { GoogleGenAI } from "@google/genai";
+import { useState, useEffect, Suspense, lazy, useRef } from 'react';
 
 // Lazy load the floating button to reduce initial bundle size and execution time
 const FloatingWhatsApp = lazy(() => Promise.resolve({
@@ -181,38 +180,6 @@ const TRUST_CARDS = [
 
 export default function App() {
   const [showWhatsApp, setShowWhatsApp] = useState(false);
-  const [aiInput, setAiInput] = useState('');
-  const [aiResponse, setAiResponse] = useState('');
-  const [isAiLoading, setIsAiLoading] = useState(false);
-  const aiResponseRef = useRef<HTMLDivElement>(null);
-
-  const handleAiConsult = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!aiInput.trim()) return;
-
-    setIsAiLoading(true);
-    setAiResponse('');
-    
-    try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: `Você é um consultor de SEO especialista da agência Alan SEO. Responda de forma curta e profissional em português. Pergunta: ${aiInput}`,
-        config: {
-          systemInstruction: "Você é o Alan, um especialista em SEO. Seja prestativo, técnico e focado em resultados orgânicos.",
-        }
-      });
-      setAiResponse(response.text || 'Desculpe, não consegui processar sua dúvida agora.');
-    } catch (error) {
-      console.error('AI Error:', error);
-      setAiResponse('Erro ao conectar com a consultoria de IA. Tente novamente mais tarde.');
-    } finally {
-      setIsAiLoading(false);
-      setTimeout(() => {
-        aiResponseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
-    }
-  };
 
   useEffect(() => {
     // Defer the loading of the WhatsApp button to after the main content is ready
@@ -234,10 +201,10 @@ export default function App() {
       {/* Background Accent Image */}
       <div className="absolute top-0 left-0 w-full h-[320px] -z-10 overflow-hidden">
         <img 
-          src="https://picsum.photos/seed/seo-marketing/1200/320?blur=2" 
+          src="https://scontent-gru1-1.cdninstagram.com/v/t51.82787-19/628959732_18566132353054456_4011160321108166444_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-gru1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gExrvlmIxvS9bt9AeBjiMkHqZJBs1RSLtWKKgvuvDlAiMxrao_MBE7wUVuFRIklo8M&_nc_ohc=YzuIdRLr_jAQ7kNvwG7c_Au&_nc_gid=S-5PqFEtlhBrG-DV3Hufow&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Afw0cK2G5UKH_6mo5vlt4qVarRNDpIgoZ9wnQ2OrCwVZTg&oe=69D209DD&_nc_sid=7a9f4b" 
           alt="" 
           role="presentation"
-          className="w-full h-full object-cover brightness-[0.5] contrast-[1.1]"
+          className="w-full h-full object-cover brightness-[0.4] contrast-[1.1] blur-[2px]"
           referrerPolicy="no-referrer"
           loading="eager"
           fetchPriority="high"
@@ -259,7 +226,7 @@ export default function App() {
             <div className="relative mb-6">
               <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white profile-img-container animate-pulse">
                 <img 
-                  src="https://unavatar.io/instagram/alan.gseo" 
+                  src="https://scontent-gru1-1.cdninstagram.com/v/t51.82787-19/628959732_18566132353054456_4011160321108166444_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-gru1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gExrvlmIxvS9bt9AeBjiMkHqZJBs1RSLtWKKgvuvDlAiMxrao_MBE7wUVuFRIklo8M&_nc_ohc=YzuIdRLr_jAQ7kNvwG7c_Au&_nc_gid=S-5PqFEtlhBrG-DV3Hufow&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Afw0cK2G5UKH_6mo5vlt4qVarRNDpIgoZ9wnQ2OrCwVZTg&oe=69D209DD&_nc_sid=7a9f4b" 
                   alt="Foto de perfil de Alan SEO" 
                   className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
@@ -357,53 +324,6 @@ export default function App() {
               </motion.div>
             ))}
           </div>
-        </section>
-
-        {/* AI SEO Consultant Section */}
-        <section className="mb-16 bg-gradient-to-br from-[#4285F4]/5 to-[#34A853]/5 p-6 rounded-3xl border border-[#4285F4]/10 shadow-inner">
-          <div className="flex items-center space-x-2 mb-6">
-            <Sparkles className="w-6 h-6 text-[#4285F4]" />
-            <h2 className="text-xl font-bold text-gray-900">Consultoria de IA Alan SEO</h2>
-          </div>
-          <p className="text-sm text-gray-700 mb-6">
-            Tire suas dúvidas sobre SEO instantaneamente com nossa inteligência artificial treinada.
-          </p>
-          
-          <form onSubmit={handleAiConsult} className="relative mb-4">
-            <input
-              type="text"
-              value={aiInput}
-              onChange={(e) => setAiInput(e.target.value)}
-              placeholder="Ex: Como melhorar meu SEO local?"
-              className="w-full bg-white border border-gray-200 rounded-2xl py-4 pl-6 pr-14 text-sm focus:outline-none focus:ring-2 focus:ring-[#4285F4] shadow-sm"
-              disabled={isAiLoading}
-            />
-            <button
-              type="submit"
-              disabled={isAiLoading || !aiInput.trim()}
-              className="absolute right-2 top-2 bottom-2 px-4 bg-[#4285F4] text-white rounded-xl hover:bg-[#1967D2] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isAiLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
-            </button>
-          </form>
-
-          <AnimatePresence>
-            {aiResponse && (
-              <motion.div
-                ref={aiResponseRef}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#4285F4]/20 text-sm text-gray-800 leading-relaxed shadow-sm"
-              >
-                <div className="flex items-center space-x-2 mb-2 text-[#4285F4] font-bold text-xs uppercase tracking-wider">
-                  <Sparkles className="w-3 h-3" />
-                  <span>Resposta da IA</span>
-                </div>
-                {aiResponse}
-              </motion.div>
-            )}
-          </AnimatePresence>
         </section>
 
         {/* Footer */}
