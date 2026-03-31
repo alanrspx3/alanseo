@@ -259,7 +259,7 @@ export default function App() {
             <div className="relative mb-6">
               <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white profile-img-container animate-pulse">
                 <img 
-                  src="https://scontent-gru1-1.cdninstagram.com/v/t51.82787-19/628959732_18566132353054456_4011160321108166444_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=scontent-gru1-1.cdninstagram.com&_nc_cat=104&_nc_oc=Q6cZ2gExrvlmIxvS9bt9AeBjiMkHqZJBs1RSLtWKKgvuvDlAiMxrao_MBE7wUVuFRIklo8M&_nc_ohc=YzuIdRLr_jAQ7kNvwG7c_Au&_nc_gid=S-5PqFEtlhBrG-DV3Hufow&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Afw0cK2G5UKH_6mo5vlt4qVarRNDpIgoZ9wnQ2OrCwVZTg&oe=69D209DD&_nc_sid=7a9f4b" 
+                  src="https://unavatar.io/instagram/alan.gseo" 
                   alt="Foto de perfil de Alan SEO" 
                   className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
                   referrerPolicy="no-referrer"
