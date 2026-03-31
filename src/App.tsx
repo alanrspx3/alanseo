@@ -17,10 +17,17 @@ import {
   MapPin,
   Target,
   Globe,
-  Facebook
+  Facebook,
+  Award,
+  ShieldCheck,
+  Star,
+  Sparkles,
+  Send,
+  Loader2
 } from 'lucide-react';
-import { motion, LazyMotion, domAnimation } from 'motion/react';
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { motion, LazyMotion, domAnimation, AnimatePresence } from 'motion/react';
+import { useState, useEffect, Suspense, lazy, useRef, FormEvent } from 'react';
+import { GoogleGenAI } from "@google/genai";
 
 // Lazy load the floating button to reduce initial bundle size and execution time
 const FloatingWhatsApp = lazy(() => Promise.resolve({
@@ -60,8 +67,8 @@ const DeferredIcon = ({ Icon, color, delay = 0 }: { Icon: any, color: string, de
 const LINKS = [
   {
     id: 'whatsapp',
-    title: 'Fale Conosco no WhatsApp',
-    subtitle: 'Atendimento imediato e personalizado',
+    title: 'Consultoria de SEO no WhatsApp',
+    subtitle: 'Atendimento imediato e personalizado para seu negócio',
     Icon: MessageCircle,
     iconColor: '#25D366',
     url: 'https://wa.me/5569992198494?text=Olá%20gostaria%20de%20fazer%20uma%20consultoria.',
@@ -69,8 +76,8 @@ const LINKS = [
   },
   {
     id: 'conteudo',
-    title: 'Criação de Conteúdo Otimizado',
-    subtitle: 'Textos que ranqueiam e convertem',
+    title: 'Criação de Conteúdo SEO Otimizado',
+    subtitle: 'Textos estratégicos que ranqueiam no Google e convertem',
     Icon: PenTool,
     iconColor: '#34A853',
     url: '#',
@@ -78,8 +85,8 @@ const LINKS = [
   },
   {
     id: 'linkbuilding',
-    title: 'Link Building Estratégico',
-    subtitle: 'Autoridade real para o seu domínio',
+    title: 'Link Building de Alta Autoridade',
+    subtitle: 'Conquiste autoridade real para o seu domínio com backlinks',
     Icon: LinkIcon,
     iconColor: '#4285F4',
     url: '#',
@@ -87,8 +94,8 @@ const LINKS = [
   },
   {
     id: 'ecommerce',
-    title: 'SEO para e-commerce',
-    subtitle: 'Aumente as vendas da sua loja virtual',
+    title: 'SEO para E-commerce e Lojas Virtuais',
+    subtitle: 'Aumente as vendas e a visibilidade da sua loja online',
     Icon: ShoppingBag,
     iconColor: '#EA4335',
     url: '#',
@@ -96,8 +103,8 @@ const LINKS = [
   },
   {
     id: 'consultoria',
-    title: 'Consultoria de SEO',
-    subtitle: 'Estratégia personalizada para seu negócio',
+    title: 'Consultoria de SEO Personalizada',
+    subtitle: 'Estratégias sob medida para o crescimento do seu negócio',
     Icon: UserCheck,
     iconColor: '#4285F4',
     url: '#',
@@ -105,8 +112,8 @@ const LINKS = [
   },
   {
     id: 'tecnico',
-    title: 'SEO Técnico',
-    subtitle: 'Auditorias, velocidade e UX',
+    title: 'SEO Técnico e Auditoria de Sites',
+    subtitle: 'Otimização de velocidade, UX e indexação técnica',
     Icon: Settings,
     iconColor: '#FBBC05',
     url: '#',
@@ -114,8 +121,8 @@ const LINKS = [
   },
   {
     id: 'local',
-    title: 'SEO Local',
-    subtitle: 'Domine as buscas na sua região',
+    title: 'SEO Local e Google Meu Negócio',
+    subtitle: 'Domine as buscas na sua região e atraia clientes locais',
     Icon: MapPin,
     iconColor: '#EA4335',
     url: '#',
@@ -123,8 +130,8 @@ const LINKS = [
   },
   {
     id: 'cro',
-    title: 'CRO',
-    subtitle: 'Otimização de Taxa de Conversão',
+    title: 'CRO – Otimização de Conversão',
+    subtitle: 'Transforme visitantes em clientes com foco em resultados',
     Icon: Target,
     iconColor: '#FBBC05',
     url: '#',
@@ -132,8 +139,8 @@ const LINKS = [
   },
   {
     id: 'geo',
-    title: 'GEO',
-    subtitle: 'Generative Engine Optimization',
+    title: 'GEO – Otimização para IA',
+    subtitle: 'Prepare seu site para as buscas generativas da nova era',
     Icon: Globe,
     iconColor: '#34A853',
     url: '#',
@@ -141,8 +148,71 @@ const LINKS = [
   }
 ];
 
+const TRUST_CARDS = [
+  {
+    id: 'experience',
+    title: 'Experiência',
+    description: 'Anos de atuação no mercado digital, entregando resultados consistentes para diversos nichos.',
+    Icon: Award,
+    color: 'text-blue-600'
+  },
+  {
+    id: 'expertise',
+    title: 'Especialização',
+    description: 'Domínio técnico avançado em SEO, Link Building e Otimização de Conversão.',
+    Icon: Star,
+    color: 'text-yellow-500'
+  },
+  {
+    id: 'authority',
+    title: 'Autoridade',
+    description: 'Reconhecido como referência em posicionamento orgânico e estratégias de topo de funil.',
+    Icon: TrendingUp,
+    color: 'text-green-600'
+  },
+  {
+    id: 'trust',
+    title: 'Confiança',
+    description: 'Transparência total em relatórios e foco absoluto no ROI do cliente.',
+    Icon: ShieldCheck,
+    color: 'text-red-500'
+  }
+];
+
 export default function App() {
   const [showWhatsApp, setShowWhatsApp] = useState(false);
+  const [aiInput, setAiInput] = useState('');
+  const [aiResponse, setAiResponse] = useState('');
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const aiResponseRef = useRef<HTMLDivElement>(null);
+
+  const handleAiConsult = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!aiInput.trim()) return;
+
+    setIsAiLoading(true);
+    setAiResponse('');
+    
+    try {
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: `Você é um consultor de SEO especialista da agência Alan SEO. Responda de forma curta e profissional em português. Pergunta: ${aiInput}`,
+        config: {
+          systemInstruction: "Você é o Alan, um especialista em SEO. Seja prestativo, técnico e focado em resultados orgânicos.",
+        }
+      });
+      setAiResponse(response.text || 'Desculpe, não consegui processar sua dúvida agora.');
+    } catch (error) {
+      console.error('AI Error:', error);
+      setAiResponse('Erro ao conectar com a consultoria de IA. Tente novamente mais tarde.');
+    } finally {
+      setIsAiLoading(false);
+      setTimeout(() => {
+        aiResponseRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+  };
 
   useEffect(() => {
     // Defer the loading of the WhatsApp button to after the main content is ready
@@ -209,19 +279,19 @@ export default function App() {
               </div>
             </div>
             
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">ALAN SEO</h1>
-            <h2 className="text-[#1967D2] font-semibold text-sm tracking-wide uppercase mb-4">A sua marca no topo das pesquisas</h2>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">Alan SEO – Especialista em Posicionamento no Google</h1>
+            <h2 className="text-[#1967D2] font-semibold text-sm tracking-wide uppercase mb-4">Consultoria de SEO e Estratégias de Marketing Digital</h2>
             
             <div className="max-w-[280px]">
               <p className="text-gray-800 text-sm leading-relaxed">
-                Aumente o tráfego orgânico, conquiste clientes qualificados e transforme seu site em uma máquina de vendas.
+                Aumente o tráfego orgânico do seu site, conquiste clientes qualificados e transforme sua presença digital em uma máquina de vendas com estratégias de SEO personalizadas.
               </p>
             </div>
           </motion.div>
         </header>
 
         {/* Links Section - Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-16">
           {LINKS.map((link, index) => {
             const isClickable = link.url !== '#';
             const CardWrapper = isClickable ? motion.a : motion.div;
@@ -259,6 +329,82 @@ export default function App() {
             );
           })}
         </div>
+
+        {/* Trust Section */}
+        <section className="mb-16">
+          <div className="flex items-center justify-center space-x-2 mb-8">
+            <ShieldCheck className="w-6 h-6 text-[#1967D2]" />
+            <h2 className="text-xl font-bold text-gray-900">Por que escolher Alan SEO?</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {TRUST_CARDS.map((card, index) => (
+              <motion.div
+                key={card.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm"
+              >
+                <div className="flex items-start space-x-4">
+                  <div className={`p-2 rounded-lg bg-gray-50 ${card.color}`}>
+                    <card.Icon className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-sm mb-1">{card.title}</h3>
+                    <p className="text-xs text-gray-600 leading-relaxed">{card.description}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* AI SEO Consultant Section */}
+        <section className="mb-16 bg-gradient-to-br from-[#4285F4]/5 to-[#34A853]/5 p-6 rounded-3xl border border-[#4285F4]/10 shadow-inner">
+          <div className="flex items-center space-x-2 mb-6">
+            <Sparkles className="w-6 h-6 text-[#4285F4]" />
+            <h2 className="text-xl font-bold text-gray-900">Consultoria de IA Alan SEO</h2>
+          </div>
+          <p className="text-sm text-gray-700 mb-6">
+            Tire suas dúvidas sobre SEO instantaneamente com nossa inteligência artificial treinada.
+          </p>
+          
+          <form onSubmit={handleAiConsult} className="relative mb-4">
+            <input
+              type="text"
+              value={aiInput}
+              onChange={(e) => setAiInput(e.target.value)}
+              placeholder="Ex: Como melhorar meu SEO local?"
+              className="w-full bg-white border border-gray-200 rounded-2xl py-4 pl-6 pr-14 text-sm focus:outline-none focus:ring-2 focus:ring-[#4285F4] shadow-sm"
+              disabled={isAiLoading}
+            />
+            <button
+              type="submit"
+              disabled={isAiLoading || !aiInput.trim()}
+              className="absolute right-2 top-2 bottom-2 px-4 bg-[#4285F4] text-white rounded-xl hover:bg-[#1967D2] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isAiLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+            </button>
+          </form>
+
+          <AnimatePresence>
+            {aiResponse && (
+              <motion.div
+                ref={aiResponseRef}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#4285F4]/20 text-sm text-gray-800 leading-relaxed shadow-sm"
+              >
+                <div className="flex items-center space-x-2 mb-2 text-[#4285F4] font-bold text-xs uppercase tracking-wider">
+                  <Sparkles className="w-3 h-3" />
+                  <span>Resposta da IA</span>
+                </div>
+                {aiResponse}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
 
         {/* Footer */}
         <footer className="text-center py-8">
